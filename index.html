@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>メタバース掲示板</title>
+<title>万博情報交換所</title>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 <style>
@@ -21,26 +21,7 @@
 </style>
 </head>
 <body>
-<script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
 
-  // Your web app's Firebase configuration
-  const firebaseConfig = {
-    apiKey: "AIzaSyByFru8zWFZc3Xxx3pfCGSlaXRTrhVB6b0",
-    authDomain: "banpakukeijiban.firebaseapp.com",
-    databaseURL: "https://banpakukeijiban-default-rtdb.asia-southeast1.firebasedatabase.app",
-    projectId: "banpakukeijiban",
-    storageBucket: "banpakukeijiban.firebasestorage.app",
-    messagingSenderId: "1006590731119",
-    appId: "1:1006590731119:web:a40179cc8bc5c9972efe9a"
-  };
-
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-</script>
 <div class="board-container">
   <div class="board-title">万博情報交換所</div>
   <div class="posts" id="posts"></div>
@@ -52,17 +33,18 @@
 </div>
 
 <script>
-  // ===== Firebase設定 =====
+  // ===== Firebase 設定 =====
   const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-    databaseURL: "https://YOUR_PROJECT_ID-default-rtdb.firebaseio.com",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_PROJECT_ID.appspot.com",
-    messagingSenderId: "YOUR_SENDER_ID",
-    appId: "YOUR_APP_ID"
+    apiKey: "AIzaSyByFru8zWFZc3Xxx3pfCGSlaXRTrhVB6b0",
+    authDomain: "banpakukeijiban.firebaseapp.com",
+    databaseURL: "https://banpakukeijiban-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "banpakukeijiban",
+    storageBucket: "banpakukeijiban.firebasestorage.app",
+    messagingSenderId: "1006590731119",
+    appId: "1:1006590731119:web:a40179cc8bc5c9972efe9a"
   };
 
+  // Firebase 初期化
   firebase.initializeApp(firebaseConfig);
   const db = firebase.database();
 
@@ -97,8 +79,10 @@
     postsDiv.innerHTML = '';
     const data = snapshot.val();
     if (data) {
-      const postsArray = Object.values(data).sort((a, b) => b.timestamp - a.timestamp);
-      postsArray.forEach(post => {
+      // timestampで降順にソート
+      const postsArray = Object.entries(data)
+        .sort((a, b) => b[1].timestamp - a[1].timestamp);
+      postsArray.forEach(([key, post]) => {
         const postDiv = document.createElement('div');
         postDiv.className = 'post';
         if (post.author) {
